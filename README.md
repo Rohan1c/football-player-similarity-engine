@@ -19,6 +19,7 @@ ANN-based football analytics project using representation learning and latent em
 ## Dataset
 
 FBref / Kaggle football player statistics dataset (2025–2026 season).
+Fifa26 Player atttribute rating dataset 
 
 ---
 
