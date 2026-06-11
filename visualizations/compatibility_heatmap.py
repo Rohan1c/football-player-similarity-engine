@@ -47,23 +47,17 @@ for player in players:
             idx
         )
 
-    else:
-
-        print(
-            f"Skipping {player}"
-        )
-
 n = len(valid_indices)
 
 matrix = np.zeros(
-    (n, n)
+    (n,n)
 )
 
 for i in range(n):
 
     for j in range(n):
 
-        matrix[i, j] = compatibility_score(
+        matrix[i,j] = compatibility_score(
 
             valid_indices[i],
 
@@ -72,7 +66,7 @@ for i in range(n):
         )
 
 plt.figure(
-    figsize=(10, 8)
+    figsize=(12,9)
 )
 
 sns.heatmap(
@@ -85,21 +79,28 @@ sns.heatmap(
 
     cmap="RdYlGn",
 
-    square=True,
+    linewidths=1,
 
-    linewidths=0.5,
+    square=True,
 
     xticklabels=valid_players,
 
-    yticklabels=valid_players
+    yticklabels=valid_players,
+
+    cbar_kws={
+
+        "label":
+        "Compatibility Score"
+
+    }
 
 )
 
 plt.title(
 
-    "FootballIQ Compatibility Heatmap",
+    "FootballIQ Player Compatibility Matrix",
 
-    fontsize=16,
+    fontsize=18,
 
     fontweight="bold"
 

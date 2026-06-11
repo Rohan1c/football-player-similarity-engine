@@ -24,9 +24,7 @@ embeddings = np.load(
     "models/latent_embeddings.npy"
 )
 
-df = df.drop_duplicates(
-    subset=["Player"]
-).reset_index(drop=True)
+df = df.reset_index(drop=True)
 
 tsne = TSNE(
     n_components=2,
@@ -38,27 +36,67 @@ emb_2d = tsne.fit_transform(
     embeddings
 )
 
-plt.figure(figsize=(12,8))
+position_colors = {
 
-plt.scatter(
-    emb_2d[:,0],
-    emb_2d[:,1],
-    alpha=0.6
-)
+    "CB":"red",
+    "RB":"red",
+    "LB":"red",
 
-sample_players = [
+    "CDM":"green",
+    "CM":"green",
+    "CAM":"green",
 
-    "Pedri",
-    "Rodri",
-    "Haaland",
-    "Valverde",
-    "Bellingham",
-    "Saliba",
-    "Palmer"
+    "RM":"blue",
+    "LM":"blue",
+    "RW":"blue",
+    "LW":"blue",
+    "ST":"blue",
+
+    "GK":"black"
+}
+
+colors = [
+
+    position_colors.get(
+        pos,
+        "gray"
+    )
+
+    for pos in df["Position"]
 
 ]
 
-for player in sample_players:
+plt.figure(
+    figsize=(15,10)
+)
+
+plt.scatter(
+
+    emb_2d[:,0],
+
+    emb_2d[:,1],
+
+    c=colors,
+
+    alpha=0.6,
+
+    s=35
+
+)
+
+important_players = [
+
+    "Pedri",
+    "Rodri",
+    "Valverde",
+    "Bellingham",
+    "Haaland",
+    "Palmer",
+    "Vinicius"
+
+]
+
+for player in important_players:
 
     rows = df[
         df["Player"]
@@ -80,13 +118,28 @@ for player in sample_players:
             (
                 emb_2d[idx,0],
                 emb_2d[idx,1]
-            )
+            ),
+
+            fontsize=10,
+
+            fontweight="bold"
 
         )
 
 plt.title(
-    "FootballIQ Latent Embedding Space"
+
+    "FootballIQ Latent Embedding Space",
+
+    fontsize=18,
+
+    fontweight="bold"
+
 )
+
+plt.xlabel("TSNE Dimension 1")
+plt.ylabel("TSNE Dimension 2")
+
+plt.grid(alpha=0.2)
 
 plt.tight_layout()
 

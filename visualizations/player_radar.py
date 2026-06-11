@@ -2,62 +2,52 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-player_name = input(
-    "Enter player: "
-)
-
 df = pd.read_csv(
     "data/final_merged_dataset.csv"
 )
 
-player = df[
-    df["Player"]
-    .str.contains(
-        player_name,
-        case=False,
-        na=False
-    )
+players = [
+
+    "Pedri",
+
+    "Rodri",
+
+    "Valverde"
+
 ]
-
-if len(player) == 0:
-
-    print("Player not found")
-    exit()
-
-player = player.iloc[0]
 
 features = [
 
     "Pace",
+
     "Shooting",
+
     "Passing",
+
     "Dribbling",
+
     "Defending",
+
     "Physicality"
 
 ]
 
-values = [
-
-    player[f]
-
-    for f in features
-
-]
-
-values += values[:1]
-
 angles = np.linspace(
+
     0,
+
     2*np.pi,
+
     len(features),
+
     endpoint=False
+
 ).tolist()
 
 angles += angles[:1]
 
 fig = plt.figure(
-    figsize=(8,8)
+    figsize=(10,10)
 )
 
 ax = plt.subplot(
@@ -65,17 +55,53 @@ ax = plt.subplot(
     polar=True
 )
 
-ax.plot(
-    angles,
-    values,
-    linewidth=2
-)
+for player_name in players:
 
-ax.fill(
-    angles,
-    values,
-    alpha=0.25
-)
+    player = df[
+        df["Player"]
+        .str.contains(
+            player_name,
+            case=False,
+            na=False
+        )
+    ]
+
+    if len(player)==0:
+        continue
+
+    player = player.iloc[0]
+
+    values = [
+
+        player[f]
+
+        for f in features
+
+    ]
+
+    values += values[:1]
+
+    ax.plot(
+
+        angles,
+
+        values,
+
+        linewidth=2,
+
+        label=player["Player"]
+
+    )
+
+    ax.fill(
+
+        angles,
+
+        values,
+
+        alpha=0.1
+
+    )
 
 ax.set_xticks(
     angles[:-1]
@@ -86,7 +112,19 @@ ax.set_xticklabels(
 )
 
 plt.title(
-    player["Player"]
+
+    "FootballIQ Midfielder Archetype Comparison",
+
+    fontsize=16,
+
+    fontweight="bold"
+
 )
+
+plt.legend(
+    loc="upper right"
+)
+
+plt.tight_layout()
 
 plt.show()
